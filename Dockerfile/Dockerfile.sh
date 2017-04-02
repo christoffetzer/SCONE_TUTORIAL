@@ -13,8 +13,11 @@ CONTAINER_ID=`docker run -d -it --device=/dev/isgx  -v $(pwd):/mnt sconecuratedi
 set -e
 sgxmusl-hw-async-gcc /mnt/hello_world.c  -o /usr/local/bin/sgx_hello_world
 "`
+sleep 4
+
+IMAGE_ID=$(docker commit -p -c 'CMD /usr/local/bin/sgx_hello_world' $CONTAINER_ID $IMAGE_NAME:$TAG)
 
 docker run --device=/dev/isgx $IMAGE_NAME:$TAG
 
-IMAGE_ID=$(docker commit -p -c 'CMD sgx_hello_world' $CONTAINER_ID $IMAGE_NAME:$TAG)
+docker push $IMAGE_NAME:$TAG
 

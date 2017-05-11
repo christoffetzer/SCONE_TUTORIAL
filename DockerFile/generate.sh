@@ -9,7 +9,7 @@ export FULLTAG="sconecuratedimages/helloworld:$TAG"
 
 echo "generating image $FULLTAG"
 
-docker build -t $FULLTAG .
+docker build --pull -t $FULLTAG .
 
 docker push $FULLTAG
 

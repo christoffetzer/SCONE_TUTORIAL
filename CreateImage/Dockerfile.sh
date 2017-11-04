@@ -9,9 +9,10 @@ set -x -e
 export TAG="latest"
 export IMAGE_NAME="sconecuratedimages/helloworld"
 
-CONTAINER_ID=`docker run -d -it --device=/dev/isgx  -v $(pwd):/mnt sconecuratedimages/crosscompilers bash -c "
+CONTAINER_ID=`docker run -d -it --device=/dev/isgx  -v $(pwd):/mnt sconecuratedimages/crosscompilers:scone bash -c "
 set -e
-sgxmusl-hw-async-gcc /mnt/hello_world.c  -o /usr/local/bin/sgx_hello_world
+printf 'Q 1\ne 0 0 0\ns 1 0 0\n' > /etc/sgx-musl.conf
+scone-gcc /mnt/hello_world.c  -o /usr/local/bin/sgx_hello_world
 "`
 sleep 4
 
